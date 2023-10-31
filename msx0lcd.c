@@ -18,9 +18,13 @@ char _font;
 char _dir;
 char _shift;
 
+char dev_str[20];
+
 
 void lcd_init()
 {
+    sprintf(dev_str, "device/i2c_a/%s", SLAVE_ADDR_LCD1602);
+
     lcd_send(0x34);
     lcd_send(0x30);
     lcd_send(0x34);
@@ -132,5 +136,5 @@ void lcd_writestr(const char* data)
 
 void lcd_send(char data)
 {
-    iotputb("device/i2c_a/3F", &data, 1);
+    iotputb(dev_str, &data, 1);
 }
