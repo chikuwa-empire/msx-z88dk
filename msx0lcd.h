@@ -22,6 +22,12 @@
 #define ENTRYMODE_SHIFT_OFF			0
 #define ENTRYMODE_SHIFT_ON			1
 
+
+//
+// デバイスを使用可能にします。
+//
+int lcd_begin(char* addr);
+
 //
 // パラレル通信モードを4bitに設定します。
 // 必ず最初に実行してください。

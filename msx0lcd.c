@@ -8,6 +8,7 @@
 #include "msx0lcd.h"
 
 
+char* _addr;
 char _bkl;
 char _disp;
 char _cursor;
@@ -17,13 +18,47 @@ char _nol;
 char _font;
 char _dir;
 char _shift;
+char _dev_str[20];
 
-char dev_str[20];
+int lcd_begin(char* addr)
+{
+    int i;
+    int ret;
+    int cnt;
+    char** dname;
+    char found_lcd1602;
+
+    _addr = addr;
+
+    cnt = iotfindc("device/i2c_a");
+    if (cnt == -1) return -1;
+
+    dname = (char**)malloc(sizeof(char*) * cnt);
+
+    cnt = iotfind("device/i2c_a", dname);
+    if (cnt == -1) return -1;
+
+    found_lcd1602 = 0;
+    for (i = 0; i < cnt; i++)
+    {
+        if (strcmp(dname[i], _addr) == 0) found_lcd1602 = 1;
+        free(dname[i]);
+    }
+
+    free(dname);
+
+    if (found_lcd1602 == 0)
+    {
+        printf("LCD 1602(0x%s) not found.", _addr);
+        return -1;
+    }
+
+    sprintf(_dev_str, "device/i2c_a/%s", _addr);
+}
 
 
 void lcd_init()
 {
-    sprintf(dev_str, "device/i2c_a/%s", SLAVE_ADDR_LCD1602);
 
     lcd_send(0x34);
     lcd_send(0x30);
@@ -136,5 +171,5 @@ void lcd_writestr(const char* data)
 
 void lcd_send(char data)
 {
-    iotputb(dev_str, &data, 1);
+    iotputb(_dev_str, &data, 1);
 }
