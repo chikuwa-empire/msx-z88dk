@@ -7,6 +7,7 @@
 #include "msx0.h"
 #include "msx0env.h"
 
+char* _addr;
 double _temp;
 double _humi;
 
@@ -17,6 +18,8 @@ int env_begin(char* addr)
     int cnt;
     char** dname;
     char found_sht30;
+
+	_addr = addr;
 
     cnt = iotfindc("device/i2c_a");
     if (cnt == -1) return -1;
@@ -29,7 +32,7 @@ int env_begin(char* addr)
     found_sht30 = 0;
     for (i = 0; i < cnt; i++)
     {
-        if (strcmp(dname[i], addr) == 0) found_sht30 = 1;
+        if (strcmp(dname[i], _addr) == 0) found_sht30 = 1;
         free(dname[i]);
     }
 
@@ -37,7 +40,7 @@ int env_begin(char* addr)
 
     if (found_sht30 == 0)
     {
-        printf("SHT30(0x%s) not found.", addr);
+        printf("SHT30(0x%s) not found.", _addr);
         return -1;
     }
 }
@@ -60,7 +63,7 @@ void get_env()
     char dev_str[20];
     char buf[10];
 
-    sprintf(dev_str, "device/i2c_a/%s", SLAVE_ADDR_SHT30);
+    sprintf(dev_str, "device/i2c_a/%s", _addr);
 
     buf[0] = 0x2C;
     buf[1] = 0x06;
