@@ -5,10 +5,10 @@
 ### msx0.h msx0.c
 MSX0 StackのIOT命令をC言語から使うための関数群です。
 ### msx0lcd.h msx0lcd.c
-キャラクタLCD(1602)をMSX0から使うための関数群です。<br>
-気圧はまだ対応していません。
+キャラクタLCD(1602)をMSX0から使うための関数群です。
 ### msx0env.h msx0env.c
-温湿度気圧センサー(ENV.III)をMSX0から使うための関数群です。
+温湿度気圧センサー(ENV.III)をMSX0から使うための関数群です。<br>
+気圧はまだ対応していません。
 
 ## サンプル
 ### envsampl.c
