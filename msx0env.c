@@ -61,7 +61,7 @@ void get_env()
 {
     int ret;
     char dev_str[20];
-    char buf[10];
+    char buf[20]; // MSX0がデータ長を16で返却してくるので応急処置
 
     sprintf(dev_str, "device/i2c_a/%s", _addr);
 
